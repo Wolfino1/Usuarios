@@ -1,0 +1,16 @@
+server:
+  port: 8090
+spring:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+  application:
+    name: demo
+  datasource:
+    url: jdbc:mysql://localhost/usuarios
+    username: ${user}
+    password: ${password}
+  jpa:
+    hibernate:
+      ddl-auto: update
