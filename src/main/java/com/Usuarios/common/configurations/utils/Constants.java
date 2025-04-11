@@ -1,6 +1,6 @@
 package com.Usuarios.common.configurations.utils;
 
 public class Constants {
-    public static final String SAVE_SELLER_RESPONSE_MESSAGE = "Vendedor creado con éxito";
+    public static final String SAVE_USER_RESPONSE_MESSAGE = "User created successfully";
 
 }
