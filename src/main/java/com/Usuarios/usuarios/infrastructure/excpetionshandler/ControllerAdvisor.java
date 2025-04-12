@@ -1,5 +1,6 @@
 package com.Usuarios.usuarios.infrastructure.excpetionshandler;
 
+import com.Usuarios.usuarios.domain.exceptions.WrongArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.Usuarios.usuarios.domain.exceptions.*;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public class ControllerAdvisor {
     @ExceptionHandler(MaxSizeExceededException.class)
     public ResponseEntity<ExceptionResponse> handleMaxSizeExceededException(MaxSizeExceededException exception) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(ExceptionConstants.MAX_SIZE_MESSAGE,
+        return ResponseEntity.badRequest().body(new ExceptionResponse(exception.getMessage(),
                 LocalDateTime.now()));
     }
     @ExceptionHandler(NullException.class)
@@ -28,6 +29,11 @@ public class ControllerAdvisor {
     }
     @ExceptionHandler(UnderAgeException.class)
     public ResponseEntity<ExceptionResponse> handleUnderAgeException(UnderAgeException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ExceptionResponse(exception.getMessage(), LocalDateTime.now()));
+    }
+    @ExceptionHandler(WrongArgumentException.class)
+    public ResponseEntity<ExceptionResponse> handleWrongArgumentException(WrongArgumentException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionResponse(exception.getMessage(), LocalDateTime.now()));
     }

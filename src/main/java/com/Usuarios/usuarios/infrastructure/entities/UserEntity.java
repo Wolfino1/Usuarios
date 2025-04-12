@@ -12,7 +12,7 @@ package com.Usuarios.usuarios.infrastructure.entities;
     @Table(name = "users")
     @NoArgsConstructor
     @AllArgsConstructor
-    public class SellerEntity {
+    public class UserEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long id;
@@ -23,5 +23,7 @@ package com.Usuarios.usuarios.infrastructure.entities;
         private LocalDate dateOfBirth;
         private String email;
         private String password;
-        private String role = "VENDEDOR";
+        @ManyToOne(targetEntity = RoleEntity.class, fetch = FetchType.LAZY)
+        @JoinColumn(name = "role_id")
+        private RoleEntity role;
     }
