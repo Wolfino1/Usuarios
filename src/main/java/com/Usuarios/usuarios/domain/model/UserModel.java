@@ -9,9 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.Usuarios.usuarios.domain.exceptions.WrongArgumentException;
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-    public class UserModel {
+public class UserModel {
+        private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         private long id;
         private String name;
@@ -32,7 +33,7 @@ import org.mindrot.jbcrypt.BCrypt;
             setPhoneNumber(phoneNumber);
             setDateOfBirth(dateOfBirth);
             setEmail(email);
-            setPassword(password);
+            setPassword(password,password);
             this.idRole = idRole;
         }
 
@@ -130,15 +131,13 @@ import org.mindrot.jbcrypt.BCrypt;
             return password;
         }
 
-        public void setPassword(String password) {
-            if (password == null) throw new NullException(DomainConstants.FIELD_PASSWORD_NULL_MESSAGE);
-            if (password.trim().isEmpty()) throw new EmptyException(DomainConstants.FIELD_PASSWORD_EMPTY_MESSAGE);
+            public void setPassword(String passwordEncode,String password) {
 
-            this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-        }
-        public boolean verificarPassword(String passwordPlano) {
-            return BCrypt.checkpw(passwordPlano, this.password);
-        }
+                if (password == null) throw new NullException(DomainConstants.FIELD_PASSWORD_NULL_MESSAGE);
+                if (password.trim().isEmpty()) throw new EmptyException(DomainConstants.FIELD_PASSWORD_EMPTY_MESSAGE);
+
+                this.password = passwordEncode;
+            }
 
         public Long getIdRole() {
             return idRole;

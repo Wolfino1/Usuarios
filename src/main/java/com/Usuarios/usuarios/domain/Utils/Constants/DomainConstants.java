@@ -22,6 +22,7 @@ public class DomainConstants {
     public static final String UNDER_AGE_MESSAGE = "User must be 18 years old or more";
     public static final Long SELLER_ID = 1L;
     public static final Long BUYER_ID = 2L;
+    public static final Long ADMIN_ID = 3L;
 
 
 
