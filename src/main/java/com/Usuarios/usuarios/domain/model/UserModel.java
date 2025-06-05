@@ -9,10 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.Usuarios.usuarios.domain.exceptions.WrongArgumentException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserModel {
-        private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         private long id;
         private String name;

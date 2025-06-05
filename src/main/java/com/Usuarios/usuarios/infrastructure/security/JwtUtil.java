@@ -32,8 +32,16 @@ public class JwtUtil {
                 .orElse("UNKNOWN");
         claims.put("role", fullRole);
 
-        Long sellerId = userDetails.getId();
-        claims.put("sellerId", sellerId);
+        Long id = userDetails.getId();
+
+        if ("BUYER".equals(fullRole)) {
+            claims.put("buyerId", id);
+        } else if ("SELLER".equals(fullRole)) {
+            claims.put("sellerId", id);
+        }
+        else if ("ADMIN".equals(fullRole)) {
+            claims.put("adminId", id);
+        }
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -47,9 +55,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * Expone los Claims para que otros servicios puedan extraer cualquier dato.
-     */
+
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8)))

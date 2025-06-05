@@ -5,5 +5,4 @@ import com.Usuarios.usuarios.application.dto.response.AuthenticationResponse;
 
 public interface AuthService {
     AuthenticationResponse authenticate(AuthenticationRequest request);
-
 }

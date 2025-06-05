@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-   // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/buyer")
     @Operation(
             summary = "Create buyer user",
@@ -88,7 +86,6 @@ public class UserController {
     }
 
 
-    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/seller")
     @Operation(
             summary = "Create seller user",

@@ -1,4 +1,5 @@
 package com.Usuarios.usuarios.infrastructure.security;
+import com.Usuarios.usuarios.domain.Utils.Constants.DomainConstants;
 import com.Usuarios.usuarios.domain.model.UserModel;
 import com.Usuarios.usuarios.infrastructure.entities.UserEntity;
 import com.Usuarios.usuarios.infrastructure.mappers.UserEntityMapper;
@@ -21,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException(DomainConstants.USER_NOT_FOUND));
         UserModel userModel = userEntityMapper.entityToModel(userEntity);
         return new CustomUserDetails(userModel);
     }

@@ -1,5 +1,6 @@
 package com.Usuarios.usuarios.infrastructure.security;
 
+import com.Usuarios.usuarios.domain.Utils.Constants.DomainConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
-                logger.error("Error extrayendo el username del JWT: " + e.getMessage());
+                logger.error(DomainConstants.ERROR_EXTRACTING_NAME_FROM_JWT + e.getMessage());
             }
         }
 
