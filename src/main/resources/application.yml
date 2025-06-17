@@ -1,6 +1,13 @@
 server:
   port: 8090
 spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+  security:
+    password:
+      encoder: bcrypt
   api-docs:
     enabled: true
   swagger-ui:

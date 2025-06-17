@@ -12,7 +12,6 @@ public class DomainConstants {
     public static final String FIELD_PHONE_NULL_MESSAGE = "Field phone number cannot be null";
     public static final String FIELD_PHONE_EMPTY_MESSAGE = "Field phone number cannot be empty";
     public static final String FIELD_DOB_NULL_MESSAGE = "Field date of birth cannot be null";
-    public static final String FIELD_DOB_EMPTY_MESSAGE = "Field date of birth cannot be empty";
     public static final String FIELD_PASSWORD_NULL_MESSAGE = "Field date of password cannot be null";
     public static final String FIELD_PASSWORD_EMPTY_MESSAGE = "Field date of password cannot be null";
     public static final String WRONG_ARGUMENT_EMAIL_MESSAGE = "Email has not a valid format";
@@ -20,8 +19,12 @@ public class DomainConstants {
     public static final String WRONG_ARGUMENT_PHONE_MESSAGE = "phone number must begin with "+" followed by 12 numbers";
     public static final String WRONG_ARGUMENT_DOCUMENT_MESSAGE = "Document can only contain numbers";
     public static final String UNDER_AGE_MESSAGE = "User must be 18 years old or more";
+    public static final String USER_NOT_FOUND = "Usuario no encontrado";
+    public static final String INVALID_CREDENTIALS = "Credenciales inválidas (Hash no coincide)";
+    public static final String ERROR_EXTRACTING_NAME_FROM_JWT = "Error extrayendo el username del JWT: ";
     public static final Long SELLER_ID = 1L;
     public static final Long BUYER_ID = 2L;
+    public static final Long ADMIN_ID = 3L;
 
 
 

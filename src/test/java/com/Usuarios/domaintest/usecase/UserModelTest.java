@@ -1,101 +1,185 @@
 package com.Usuarios.domaintest.usecase;
 
-import com.Usuarios.usuarios.domain.Utils.Constants.DomainConstants;
-import com.Usuarios.usuarios.domain.exceptions.*;
-import com.Usuarios.usuarios.domain.model.UserModel;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.Test;
+
+import com.Usuarios.usuarios.domain.exceptions.EmptyException;
+import com.Usuarios.usuarios.domain.exceptions.MaxSizeExceededException;
+import com.Usuarios.usuarios.domain.exceptions.NullException;
+import com.Usuarios.usuarios.domain.exceptions.UnderAgeException;
+import com.Usuarios.usuarios.domain.exceptions.WrongArgumentException;
+import com.Usuarios.usuarios.domain.model.UserModel;
+
 class UserModelTest {
 
-    private UserModel user;
-
-    @BeforeEach
-    void setUp() {
-        user = new UserModel(1L, "Laura", "Garnica", "123456789", "+573001234567",  LocalDate.of(2000, 5, 15), "laura@example.com", "password123", 1L);
+    @Test
+    void constructor_shouldCreateWhenAllValid() {
+        UserModel user = new UserModel(
+                1L,
+                "John",
+                "Doe",
+                "123456789",
+                "+011234567890",
+                LocalDate.now().minusYears(20),
+                "john.doe@example.com",
+                "password",
+                2L
+        );
+        assertEquals(1L, user.getId());
+        assertEquals("John", user.getName());
+        assertEquals("Doe", user.getLastname());
+        assertEquals("123456789", user.getDocument());
+        assertEquals("+011234567890", user.getPhoneNumber());
+        assertEquals("john.doe@example.com", user.getEmail());
     }
 
     @Test
-    void shouldCreateUserSuccessfully() {
-        assertThat(user.getName()).isEqualTo("Laura");
-        assertThat(user.getLastname()).isEqualTo("Garnica");
-        assertThat(user.getDocument()).isEqualTo("123456789");
-        assertThat(user.getPhoneNumber()).isEqualTo("+573001234567");
-        assertThat(user.getEmail()).isEqualTo("laura@example.com");
-        assertThat(user.getIdRole()).isEqualTo(1);
+    void setName_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, null, "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldThrowExceptionWhenNameIsNull() {
-        assertThatThrownBy(() -> user.setName(null))
-                .isInstanceOf(NullException.class)
-                .hasMessage("Field name cannot be null");
+    void setName_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "   ", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldThrowExceptionWhenNameIsEmpty() {
-        assertThatThrownBy(() -> user.setName(""))
-                .isInstanceOf(EmptyException.class)
-                .hasMessage("Field name cannot be empty");
+    void setLastname_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", null, "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldThrowExceptionWhenPhoneNumberIsInvalid() {
-        assertThatThrownBy(() -> user.setPhoneNumber("123"))
-                .isInstanceOf(WrongArgumentException.class)
-                .hasMessage(DomainConstants.WRONG_ARGUMENT_PHONE_MESSAGE);
+    void setLastname_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "John", "   ", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldThrowExceptionWhenUserIsUnderage() {
-        assertThatThrownBy(() -> user.setDateOfBirth(LocalDate.now().minusYears(17)))
-                .isInstanceOf(UnderAgeException.class)
-                .hasMessage(DomainConstants.UNDER_AGE_MESSAGE);
+    void setDocument_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", "Doe", null, "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldEncryptPassword() {
-        UserModel newUser = new UserModel(1L, "Laura", "Garnica", "123456789", "+573001234567",  LocalDate.of(2000, 5, 15), "laura@example.com", "password123", 1L);
-
-        assertThat(newUser.getPassword()).isNotEqualTo("securePass123");
+    void setDocument_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "John", "Doe", "   ", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
     @Test
-    void shouldVerifyPasswordCorrectly() {
-        UserModel user = new UserModel(1L, "Laura", "Garnica", "123456789", "+573001234567",
-                LocalDate.of(2000, 5, 15), "laura@example.com", "password123", 1L);
-
-        assertThat(user.verificarPassword("password123")).isTrue();
-        assertThat(user.verificarPassword("wrongpassword")).isFalse();
+    void setDocument_shouldThrowWhenNonDigits() {
+        assertThrows(WrongArgumentException.class, () -> new UserModel(
+                1L, "John", "Doe", "ABC123", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
+
     @Test
-    void shouldSetAndGetIdCorrectly() {
-        user.setId(99L);
-        assertThat(user.getId()).isEqualTo(99L);
+    void setPhoneNumber_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", null,
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
+
     @Test
-    void shouldReturnCorrectDateOfBirth() {
-        LocalDate birthDate = LocalDate.of(1995, 10, 10);
-        user.setDateOfBirth(birthDate);
-        assertThat(user.getDateOfBirth()).isEqualTo(birthDate);
+    void setPhoneNumber_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "   ",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
+
     @Test
-    void shouldSetDateOfBirthCorrectly() {
-        LocalDate validDate = LocalDate.of(2000, 1, 1);
-        user.setDateOfBirth(validDate);
-        assertThat(user.getDateOfBirth()).isEqualTo(validDate);
+    void setPhoneNumber_shouldThrowWhenTooLong() {
+        String longPhone = "+01" + "0".repeat(12);
+        assertThrows(MaxSizeExceededException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", longPhone,
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
+
     @Test
-    void shouldSetValidEmailCorrectly() {
-        String validEmail = "laura.garnica@example.com";
-        user.setEmail(validEmail);
-        assertThat(user.getEmail()).isEqualTo(validEmail);
+    void setPhoneNumber_shouldThrowWhenInvalidFormat() {
+        assertThrows(WrongArgumentException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "12345",
+                LocalDate.now().minusYears(20), "a@b.com", "pass", 2L
+        ));
     }
 
+    @Test
+    void setDateOfBirth_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                null, "a@b.com", "pass", 2L
+        ));
+    }
 
+    @Test
+    void setDateOfBirth_shouldThrowWhenUnderage() {
+        LocalDate minor = LocalDate.now().minusYears(17);
+        assertThrows(UnderAgeException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                minor, "a@b.com", "pass", 2L
+        ));
+    }
 
+    @Test
+    void setEmail_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), null, "pass", 2L
+        ));
+    }
 
+    @Test
+    void setEmail_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "   ", "pass", 2L
+        ));
+    }
+
+    @Test
+    void setEmail_shouldThrowWhenInvalidFormat() {
+        assertThrows(WrongArgumentException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "invalid-email", "pass", 2L
+        ));
+    }
+
+    @Test
+    void setPassword_shouldThrowWhenNull() {
+        assertThrows(NullException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", null, 2L
+        ));
+    }
+
+    @Test
+    void setPassword_shouldThrowWhenEmpty() {
+        assertThrows(EmptyException.class, () -> new UserModel(
+                1L, "John", "Doe", "123456789", "+011234567890",
+                LocalDate.now().minusYears(20), "a@b.com", "   ", 2L
+        ));
+    }
 }
+

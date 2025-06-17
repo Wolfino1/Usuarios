@@ -67,6 +67,24 @@ public class UserController {
         SaveUserResponse response = userService.save(requestWithRole);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    @PostMapping("/admin")
+    public ResponseEntity<SaveUserResponse> saveAdmin(@RequestBody SaveUserRequest request) {
+        SaveUserRequest requestWithRole = new SaveUserRequest(
+                request.id(),
+                request.name(),
+                request.lastname(),
+                request.document(),
+                request.phoneNumber(),
+                request.dateOfBirth(),
+                request.email(),
+                request.password(),
+                DomainConstants.ADMIN_ID
+        );
+
+        SaveUserResponse response = userService.save(requestWithRole);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
 
     @PostMapping("/seller")
     @Operation(
