@@ -2,7 +2,9 @@ package com.Usuarios.usuarios.infrastructure.security;
 
 import com.Usuarios.common.configurations.utils.Constants;
 import io.jsonwebtoken.Claims;
+
 import io.jsonwebtoken.Jwts;
+
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +24,6 @@ public class JwtUtil {
         CustomUserDetails userDetails = (CustomUserDetails) principal;
         Map<String, Object> claims = new HashMap<>();
 
-        // Rol
         String fullRole = userDetails.getAuthorities().stream()
                 .findFirst()
                 .map(a -> a.getAuthority().startsWith("ROLE_")

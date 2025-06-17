@@ -42,23 +42,23 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Personaliza esta validación según tus requerimientos
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Ajusta si gestionas bloqueo de cuenta
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Puedes agregar expiración de credenciales si es necesario
+        return true;
     }
     public Long getId() {
         return user.getId();
     }
     @Override
     public boolean isEnabled() {
-        return true; // Modifica si tu lógica de negocio define un flag de habilitación
+        return true;
     }
 }
